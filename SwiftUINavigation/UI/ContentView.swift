@@ -108,10 +108,6 @@ struct ContentView: View {
                             MenuButton(label: "Fashionable Cloths 🛍️")
                         }
                     }
-                    
-                    Group {
-                        Text("Cloths shows nested navigation with path and link")
-                    }
                     Spacer()
                 }
                 .navigationTitle("SwiftUI Navigations")
