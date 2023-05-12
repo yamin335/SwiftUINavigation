@@ -46,7 +46,6 @@ let listOfCloths: [Cloth] = [
 ]
 
 struct ContentView: View {
-    @State private var presentedNumbers = [1, 4, 8]
     @State var showPoint: Bool = true
     @State var path = NavigationPath()
 
@@ -95,27 +94,40 @@ struct ContentView: View {
                             MenuButton(label: "Another Multiple nested navigation")
                         }
                         
-                        Text("Foods & Cloths shows nested navigation with path")
+                        Text("Food list shows nested navigation with only path")
                         
-                        NavigationLink(destination: FoodItemListView(path: $path)) {
+                        Button(action: {
+                            path.append(FoodItemListView.tag)
+                        }) {
                             MenuButton(label: "Yummy Foods 🍕")
                         }
                         
-                        NavigationLink(destination: ClothItemListView(path: $path)) {
+                        Text("Cloth list shows nested navigation with path and link")
+                        
+                        NavigationLink(value: ClothItemListView.tag) {
                             MenuButton(label: "Fashionable Cloths 🛍️")
                         }
                     }
+                    
+                    Group {
+                        Text("Cloths shows nested navigation with path and link")
+                    }
                     Spacer()
-                }
-                .navigationDestination(for: FastFood.self) { item in
-                    FoodItemDetailsView(item: item, path: $path)
-                }
-                .navigationDestination(for: Cloth.self) { item in
-                    ClothItemDetailsView(item: item, path: $path)
                 }
                 .navigationTitle("SwiftUI Navigations")
                 .padding(.horizontal, 20)
                 .padding(.vertical, 15)
+                .navigationDestination(for: String.self) { tag in
+                    if tag == FoodItemListView.tag {
+                        FoodItemListView(path: $path)
+                    } else if tag == ClothItemListView.tag {
+                        ClothItemListView(path: $path)
+                    }
+                }.navigationDestination(for: FastFood.self) { foodItem in
+                    FoodItemDetailsView(item: foodItem, path: $path)
+                }.navigationDestination(for: Cloth.self) { clothItem in
+                    ClothItemDetailsView(item: clothItem, path: $path)
+                }
             }
         }
     }

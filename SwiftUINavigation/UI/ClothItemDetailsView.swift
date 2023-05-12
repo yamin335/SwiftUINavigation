@@ -12,8 +12,32 @@ struct ClothItemDetailsView: View {
     @Binding var path: NavigationPath
     
     var body: some View {
-        Text(item.name)
-            .font(.system(size: 40, weight: .black))
+        VStack {
+            Text(item.name)
+                .font(.system(size: 60, weight: .black))
+                .padding(.top, 40)
+            
+            Text("Related fashionable Items")
+                .padding(.top, 40)
+
+            HStack {
+                ForEach(Array(listOfCloths.enumerated()), id: \.offset) { index, item in
+                    NavigationLink(value: item) {
+                        RelatedListItem(label: item.name)
+                    }
+                }
+            }
+            
+            Button(action: {
+                while path.count > 1 {
+                    path.removeLast()
+                }
+            }) {
+                BackButton(label: "Back to the list")
+            }.padding(40)
+            
+            Spacer()
+        }.padding()
     }
 }
 
